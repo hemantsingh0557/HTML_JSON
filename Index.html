@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Gallery</title>
+    <style>
+        .main{
+            display: flex;
+            justify-content: center ;
+            align-items: center ;
+            flex-direction: column;
+        }
+        .select{
+            font-size: 25px  ;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content:center ;
+        }
+        .border{
+            margin: 0;
+            padding-top: 4px;
+            width: 60%;
+            border-bottom: 2px solid rgb(65, 144, 151); 
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .card {
+            margin: 15px;
+            width: 200px;
+            text-align: center;
+            /* border: 1px solid #ccc; */
+            border-radius: 8px;
+            /* padding: 10px; */
+            /* transition: background-color 1s ease; */
+            transition: box-shadow 0.5s  ease;
+        }
+        .card:hover {
+            background-color: rgb(65, 144, 151); /* Change background color on hover */
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            
+            transition: background-color 1.4s  ease;
+        }
+        .card img {
+            width: 100%;
+            height: 200px; /* Set the desired height */
+            object-fit: cover; /* Maintain aspect ratio */
+            border-top-left-radius: 7px; /* Rounded corners for top-left */
+            border-top-right-radius: 7px; /* Rounded corners for top-right */
+        }
+        .details p {
+            margin: 5px 0;
+            color: rgb(123, 119, 119); /* Text color */
+            font-weight: bold; /* Bold text */
+        }
+        .details p.name {
+            font-size: 16px; /* Larger font size for name */
+        }
+        .details p.specialty {
+            font-size: 14px; /* Smaller font size for specialty */
+        }
+        .card:hover .details p {
+            color: white; /* Change text color on hover */
+        }
+    </style>
+</head>
+<body>
+    <div class=" main " >
+        <div class="select " >
+            Select Doctor
+            <p class=" border " ></p>
+        </div>
+        <div class="container" id="imageContainer">
+            
+            <!-- Images and details will be loaded here dynamically -->
+        </div>
+    </div>
+
+    <script>
+        fetch('images.json')
+            .then(response => response.json())
+            .then(data => {
+                const container = document.getElementById('imageContainer');
+                data.forEach(doctor => {
+                    const card = document.createElement('div');
+                    card.classList.add('card');
+
+                    const img = document.createElement('img');
+                    img.src = doctor.image;
+                    img.alt = 'Doctor Image';
+
+                    const details = document.createElement('div');
+                    details.classList.add('details');
+
+                    const name = document.createElement('p');
+                    name.textContent = doctor.name;
+                    name.classList.add('name');
+
+                    const specialty = document.createElement('p');
+                    specialty.textContent = doctor.specialty;
+                    specialty.classList.add('specialty');
+
+                    details.appendChild(name);
+                    details.appendChild(specialty);
+
+                    card.appendChild(img);
+                    card.appendChild(details);
+
+                    container.appendChild(card);
+                });
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    </script>
+</body>
+</html>
